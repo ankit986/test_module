@@ -18,16 +18,16 @@ export  class App extends Component {
     
   }
 
+  baseUrl = 'http://192.168.43.10:8000/contacts';
 
   fetchData(){
     console.log("inside fetchmetehod");
-    fetch("https://randomuser.me/api/", {
+    fetch(this.baseUrl, {
       "method": "GET",
       
     }).then(response => response.json())
         .then(response => {
-          console.log(response.results[0].cell)
-          console.log(`${response.results[0].name.title} ${response.results[0].name.first} ${response.results[0].name.last}`)
+          console.log(response)
         })
         .catch(err => {
           console.log(err);
@@ -35,7 +35,7 @@ export  class App extends Component {
   }
 
   postData(){
-    var url ="https://dummy-api-employee.herokuapp.com/api/course";
+    var url =this.baseUrl;
     fetch(url,{
       "method":"POST",
       "headers": {
@@ -44,11 +44,9 @@ export  class App extends Component {
         "accept": "application/json"
       },
       "body": JSON.stringify({
-        "course":{"course_id":"FlutterBasics_16087123279169081",
-                "course_title":"Flutter Basics",
-                "created_at":"2020-12-24T15:24:04.371Z",
-                "course_price":499}
-      })
+        "name": this.state.name,
+        "number": this.state.number
+    })
     }).then(response => response.json())
     .then(response => {
       console.log(response)
@@ -76,6 +74,8 @@ render(){
           </div>
           <div>
             <button onClick={this.postData}>Post</button>
+            <button onClick={this.fetchData}>Fetch</button>
+
           </div>
       </header> 
     </div>
