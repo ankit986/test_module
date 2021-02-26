@@ -1,7 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { Component } from 'react'
-
+import React, { Component } from 'react';
 
 export  class App extends Component {
 
@@ -18,10 +17,14 @@ export  class App extends Component {
     
   }
 
-  baseUrl = 'http://192.168.43.10:8000/contacts';
+  baseUrl = `http://${window.location.hostname}:8000/contacts`;
+
 
   fetchData(){
+    console.log(this.baseUrl);
+
     console.log("inside fetchmetehod");
+   
     fetch(this.baseUrl, {
       "method": "GET",
       
