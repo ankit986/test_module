@@ -1,23 +1,52 @@
 {
-  "name": "my-electron-react-app",
+  "name": "my-electron-react-app1",
+  "productName": "my-electron-react-app1",
+  "description": "A testing module",
   "version": "0.1.0",
   "private": true,
   "main": "public/main.js",
+  "homepage": "./",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
+    "concurrently": "^6.0.0",
+    "cross-env": "^7.0.3",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
+    "wait-on": "^5.2.1",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "concurrently \"BROWSER=none npm run start-react\" \"wait-on http://localhost:3000 && electron .\"",
+    "start-react": "react-scripts start",
+    "react-build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "electron .",
+    "package-linux": "electron-packager .  my-electron-react-app1 --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds",
+    "create-debian-installer": "electron-installer-debian --src release-builds/my-electron-react-app1-linux-x64/ --arch amd64 --config debian.json",
+    "electron-build": "electron-builder",
+    "build": "npm run react-build && npm run electron-build"
+
+  },
+  "build": {
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "linux": {
+      "artifactName": "abc",
+      "maintainer": "xxxx",
+      "target": [
+        "tar.gz",
+        "deb",
+        "rpm"
+      ]
+    },
+    "extends":null
+  
   },
   "eslintConfig": {
     "extends": [
@@ -38,6 +67,8 @@
     ]
   },
   "devDependencies": {
-    "electron": "^11.3.0"
+    "electron": "^11.3.0",
+    "electron-builder": "^22.9.1",
+    "electron-packager": "^15.2.0"
   }
 }

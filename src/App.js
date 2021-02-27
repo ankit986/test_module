@@ -8,13 +8,15 @@ export  class App extends Component {
     super(props);
     this.state = {
       name:'',
-      number:''
+      number:'',
+      dataAvailable:false,
+      contacts:[]
     }
   
   this.printStateInfo =  this.printStateInfo.bind(this);
   this.fetchData =  this.fetchData.bind(this);
   this.postData =  this.postData.bind(this);
-    
+  
   }
 
   baseUrl = `http://${window.location.hostname}:8000/contacts`;
@@ -31,6 +33,11 @@ export  class App extends Component {
     }).then(response => response.json())
         .then(response => {
           console.log(response)
+          this.setState({
+            contacts:response.contacts,
+            dataAvailable:true
+          });
+          console.log("state ", this.state.contacts);
         })
         .catch(err => {
           console.log(err);
@@ -53,6 +60,7 @@ export  class App extends Component {
     }).then(response => response.json())
     .then(response => {
       console.log(response)
+      this.fetchData();
     })
     .catch(err => {
       console.log(err);
@@ -64,6 +72,18 @@ export  class App extends Component {
     console.log(this.state);
     console.log(`name  ${this.state.name} number ${this.state.number}`);
   }
+
+  renderTableData() {
+ 
+    return this.state.contacts.map((contact, index) => {
+       const { name, number } = contact //destructuring
+       return (
+          <tr key={ number}>
+             <td>{name}</td>
+             <td>{number}</td>
+          </tr>
+       )
+    })}
 
 render(){
   return (
@@ -80,6 +100,17 @@ render(){
             <button onClick={this.fetchData}>Fetch</button>
 
           </div>
+
+          {this.state.dataAvailable?<div>
+            <h1 id = 'title'> Contacts Reterieved From Server DB</h1>
+            <table id ='contacts' >
+                <tbody>
+                  <tr><th>Name</th><th>Number</th></tr>
+                  {this.renderTableData()}
+
+                </tbody>
+            </table>
+          </div>:<div></div>}
       </header> 
     </div>
   );

@@ -36,3 +36,33 @@
     transform: rotate(360deg);
   }
 }
+
+#title {
+  text-align: center;
+  font-family: arial, sans-serif;
+}
+
+#contacts {
+  text-align: center;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  border: 3px solid #ddd;
+  width: 100%;
+}
+
+#contacts td, #contacts th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#contacts tr:nth-child(even){background-color:grey;}
+
+#contacts tr:hover {background-color: green;}
+
+#contacts th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #1b251b;
+  color: white;
+}
